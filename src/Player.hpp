@@ -1,0 +1,20 @@
+#ifndef Player_hpp
+#define Player_hpp
+
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
+#include <iostream>
+
+class Player {
+public:
+    Player();
+    Player(const char *texture, int x, int y);
+    ~Player();
+    void Render();
+private:
+    int xpos = 0;
+    int ypos = 0;
+    SDL_Texture* sprite;
+};
+
+#endif
