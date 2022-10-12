@@ -11,10 +11,12 @@ public:
     Player(const char *texture, int x, int y);
     ~Player();
     void Render();
+    void Update();
 private:
     int xpos = 0;
     int ypos = 0;
     SDL_Texture* sprite;
+    SDL_Rect srcRect, destRect;
 };
 
 #endif

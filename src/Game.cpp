@@ -1,9 +1,15 @@
 #include "Game.hpp"
+#include "TextureManager.hpp"
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 
 Player *pp;
+SDL_Texture *bgTexture;
+SDL_Rect bgOrign = {0, 0, 10, 10};
+SDL_Rect bgSize = {0, 0, 480, 480};
+
+TextureManager mTM;
 
 Game::Game() {
 
@@ -45,6 +51,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     }
 
     pp = new Player("./assets/sprite01.png", 30, 30);
+    bgTexture = mTM.LoadTexture("assets/black.png");
 }
 
 void Game::handleEvents() {
@@ -59,11 +66,13 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-
+    pp->Update();
 }
 
 void Game::render() {
     SDL_RenderClear(renderer);
+    mTM.Draw(bgTexture, bgOrign, bgSize, SDL_FLIP_NONE);
+    pp->Render();
     SDL_RenderPresent(renderer);
 }
 
