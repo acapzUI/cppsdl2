@@ -1,5 +1,5 @@
-#ifndef TM_hpp
-#define TM_hpp
+#ifndef TextureManager_hpp
+#define TextureManager_hpp
 
 #include "Game.hpp"
 

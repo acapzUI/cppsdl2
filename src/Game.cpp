@@ -1,15 +1,18 @@
 #include "Game.hpp"
-#include "TextureManager.hpp"
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 
 Player *pp;
 SDL_Texture *bgTexture;
-SDL_Rect bgOrign = {0, 0, 10, 10};
+SDL_Texture *tx;
+SDL_Rect bgOrigin = {0, 0, 10, 10};
 SDL_Rect bgSize = {0, 0, 480, 480};
+SDL_Rect txOrigin;
+SDL_Rect txSize;
 
-TextureManager mTM;
+TextureManager mTextureManager;
+TextManager mTextManager;
 
 Game::Game() {
 
@@ -44,14 +47,24 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     }
 
     if (!IMG_Init(IMG_INIT_PNG)) {
-        std::cout << "log : sdl_image not initialized. error : " << std::endl
+        std::cout << "log : sdl_image init failed" << std::endl
             << IMG_GetError() << std::endl;
     } else {
         std::cout << "log : sdl_image initialized" << std::endl;
     }
+    if (TTF_Init() < 0) {
+        std::cout << "log : sdl_ttf init failed" << std::endl;
+    } else {
+        std::cout << "log : sdl_ttf initialized" << std::endl;
+    }
 
-    pp = new Player("./assets/sprite01.png", 30, 30);
-    bgTexture = mTM.LoadTexture("assets/black.png");
+    pp = new Player("./assets/item/item8BIT_book.png", 10, 20);
+    tx = mTextManager.LoadMessage("./assets/NewHiScore.ttf", "3000!", 45);
+    SDL_Point txs;
+    SDL_QueryTexture(tx, NULL, NULL, &txs.x, &txs.y);
+    txOrigin = {0, 0, txs.x, txs.y};
+    txSize = {10, 10, txs.x, txs.y};
+    bgTexture = mTextureManager.LoadTexture("assets/black.png");
 }
 
 void Game::handleEvents() {
@@ -71,12 +84,13 @@ void Game::update() {
 
 void Game::render() {
     SDL_RenderClear(renderer);
-    mTM.Draw(bgTexture, bgOrign, bgSize, SDL_FLIP_NONE);
+    mTextureManager.Draw(bgTexture, bgOrigin, bgSize, SDL_FLIP_NONE);
+    //mTextureManager.Draw(tx, txOrigin, txSize, SDL_FLIP_NONE);
     pp->Render();
     SDL_RenderPresent(renderer);
 }
 
-void Game::clean() {
+void Game::clean() { 
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();

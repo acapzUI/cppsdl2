@@ -10,12 +10,10 @@ Player::Player(const char* texture, int x, int y) {
     xpos = x;
     ypos = y;
 
-    srcRect.h = 32;
-    srcRect.w = 32;
+    srcRect.h = 16;
+    srcRect.w = 16;
     srcRect.x = 0;
     srcRect.y = 0;
-
-    
 }
 
 Player::~Player() {
@@ -24,12 +22,20 @@ Player::~Player() {
 
 void Player::Update() {
 
-    xpos += 1;
-    ypos += 1;
+    xpos += directionX;
+    ypos += directionY;
+
     destRect.x = xpos;
     destRect.y = ypos;
-    destRect.w = srcRect.w * 2;
-    destRect.h = srcRect.h * 2;
+    destRect.w = srcRect.w;
+    destRect.h = srcRect.h;
+
+    if (xpos<0 or xpos>464) {
+        directionX = -directionX;
+    }
+    if (ypos<0 or ypos>404) {
+        directionY = -directionY;
+    }
 }
 
 void Player::Render() {

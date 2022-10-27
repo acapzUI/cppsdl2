@@ -17,6 +17,8 @@ private:
     int ypos = 0;
     SDL_Texture* sprite;
     SDL_Rect srcRect, destRect;
+    int directionX = 2;
+    int directionY = 2;
 };
 
 #endif

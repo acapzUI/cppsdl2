@@ -7,6 +7,8 @@
 #include <iostream>
 
 #include "Player.hpp"
+#include "TextureManager.hpp"
+#include "TextManager.hpp"
 
 class Game {
 public:
