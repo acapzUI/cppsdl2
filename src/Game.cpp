@@ -85,7 +85,7 @@ void Game::update() {
 void Game::render() {
     SDL_RenderClear(renderer);
     mTextureManager.Draw(bgTexture, bgOrigin, bgSize, SDL_FLIP_NONE);
-    //mTextureManager.Draw(tx, txOrigin, txSize, SDL_FLIP_NONE);
+    mTextureManager.Draw(tx, txOrigin, txSize, SDL_FLIP_NONE);
     pp->Render();
     SDL_RenderPresent(renderer);
 }
