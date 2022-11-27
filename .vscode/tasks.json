@@ -3,25 +3,21 @@
         {
             "type": "shell",
             "label": "SDL2",
-            "command": "C:\\Program Files\\mingw-w64\\x86_64-8.1.0-win32-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe",
+            "command": "C:/Program Files/mingw-w64/x86_64-8.1.0-win32-seh-rt_v6-rev0/mingw64/bin/g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
                 "../src/*.cpp",
-                //"../src/main.cpp",
-                //"../src/Game.cpp",
-                //"../src/GameObject.cpp",
-                //"../src/TextureManager.cpp",
                 "-o",
                 "../build/main.exe",
-                "-ID:./include",
-                "-LD:./lib",
+                "-ID:../include",
+                "-LD:../lib",
                 "-lmingw32",
                 "-lSDL2main",
                 "-lSDL2_image",
                 "-lSDL2_ttf",
                 "-lSDL2",
-                "-Wwrite-strings"
+                "-Wwrite-strings",
                 //"-mwindows"
             ],
             "options": {
