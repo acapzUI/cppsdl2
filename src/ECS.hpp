@@ -15,15 +15,12 @@ class Manager;
 using ComponentID = std::size_t;
 using Group = std::size_t;
 
-inline ComponentID getComponentTypeID()
-{
+inline ComponentID getComponentTypeID() {
     static ComponentID lastID = 0;
     return lastID++;
 };
-
 template <typename T>
-inline ComponentID getComponentTypeID() noexcept
-{
+inline ComponentID getComponentTypeID() noexcept {
     static_assert(std::is_base_of<Component, T>::value, "");
     static ComponentID typeID = getComponentTypeID();
     return typeID;
@@ -36,21 +33,18 @@ using ComponentBitSet = std::bitset<maxComponents>;
 using ComponentArray = std::array<Component *, maxComponents>;
 using GroupBitSet = std::bitset<maxGroups>;
 
-class Component
-{
+class Component {
 public:
-    Entity *entity;
+    Entity *entity; // 아마도 parent Entity
     virtual void init() {}
     virtual void update() {}
     virtual void draw() {}
-
     virtual ~Component() {}
 };
 
-class Entity
-{
+class Entity {
 private:
-    Manager &manager;
+    Manager &manager; // 아마도 parent Manager
     bool active = true;
     std::vector<std::unique_ptr<Component>> components;
 
@@ -59,42 +53,34 @@ private:
     GroupBitSet groupBitSet;
 
 public:
-    Entity(Manager &mManager) : manager(mManager)
-    {
-    }
+    Entity(Manager &mManager) : manager(mManager) { }
 
-    void update()
-    {
+    void update() {
         for (auto &c : components)
             c->update();
     }
-    void draw()
-    {
+    void draw() {
         for (auto &c : components)
             c->draw();
     }
     bool isActive() const { return active; }
     void destroy() { active = false; }
-    bool hasGroup(Group mGroup)
-    {
+    bool hasGroup(Group mGroup) {
         return groupBitSet[mGroup];    
     }
 
     void addGroup(Group mGroup);
-    void delGroup(Group mGroup)
-    {
+    void delGroup(Group mGroup) {
         groupBitSet[mGroup] = false;
     }
 
     template <typename T>
-    bool hasComponent() const
-    {
+    bool hasComponent() const {
         return componentBitSet[getComponentTypeID<T>()];
     }
 
     template <typename T, typename... TArgs>
-    T &addComponent(TArgs &&... mArgs)
-    {
+    T &addComponent(TArgs &&... mArgs) {
         T *c(new T(std::forward<TArgs>(mArgs)...));
         c->entity = this;
         std::unique_ptr<Component> uPtr{c};
@@ -108,35 +94,28 @@ public:
     }
 
     template <typename T>
-    T &getComponent() const
-    {
+    T &getComponent() const {
         auto ptr(componentArray[getComponentTypeID<T>()]);
         return *static_cast<T *>(ptr);
     }
 };
 
-
-class Manager
-{
+class Manager {
 private:
     std::vector<std::unique_ptr<Entity>> entities;
     std::array<std::vector<Entity *>, maxGroups> groupedEntities;
 
 public:
-    void update()
-    {
+    void update() {
         for (auto &e : entities)
             e->update();
     }
-    void draw()
-    {
+    void draw() {
         for (auto &e : entities)
             e->draw();
     }
-    void refresh()
-    {
-        for (auto i(0u); i < maxGroups; ++i )
-        {
+    void refresh() {
+        for (auto i(0u); i < maxGroups; ++i) {
             auto &v(groupedEntities[i]);
             v.erase(
                 std::remove_if(std::begin(v), std::end(v), [i](Entity *mEntity) {
@@ -153,18 +132,15 @@ public:
 
     }
 
-    void AddToGroup(Entity *mEntity, Group mGroup)
-    {
+    void AddToGroup(Entity *mEntity, Group mGroup) {
         groupedEntities[mGroup].emplace_back(mEntity);
     }
 
-    std::vector<Entity *> &getGroup(Group mGroup)
-    {
+    std::vector<Entity *> &getGroup(Group mGroup) {
         return groupedEntities[mGroup];
     }
 
-    Entity &addEntity()
-    {
+    Entity &addEntity()  {
         Entity *e = new Entity(*this);
         std::unique_ptr<Entity> uPtr{e};
         entities.emplace_back(std::move(uPtr));
@@ -173,3 +149,34 @@ public:
 };
 
 #endif 
+
+
+/*
+
+auto &player(manager.addEntity());
+auto &wall(manager.addEntity());
+
+enum groupLabels : std::size_t
+{
+    groupMap,
+    groupPlayers,
+    groupEnemies,
+    groupColliders,
+};
+
+
+player.addComponent<TransformComponent>(2);
+    player.addComponent<SpriteComponent>("assets/player2.png");
+    player.addComponent<KeyboardController>();
+    player.addGroup(groupPlayers);
+
+for (auto &p : players)
+    {
+        p->draw();
+    }
+    for (auto &e : enemies)
+    {
+        e->draw();
+    }    
+
+*/
