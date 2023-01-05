@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
-#include <biptset>
+#include <bitset>
 #include <array>
 
 class Component;
@@ -150,7 +150,7 @@ public:
 
 #endif 
 
-
+ 
 /*
 
 auto &player(manager.addEntity());

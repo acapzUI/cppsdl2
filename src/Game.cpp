@@ -14,6 +14,21 @@ SDL_Rect txSize;
 TextureManager mTextureManager;
 TextManager mTextManager;
 
+Manager manager;
+
+// 엔티티임
+auto &player(manager.addEntity());
+
+// 이게 그룹임
+enum groupLabels : std::size_t {
+    groupPlayers,
+    groupPlayerMissiles
+    groupEnermy,
+    groupEnermyMissiles,
+    groupCoins,
+    groupColliders,
+};
+
 Game::Game() {
 
 }
@@ -59,6 +74,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     }
 
     pp = new Player("./assets/item/item8BIT_book.png", 10, 20);
+    auto &pp(manager.getGroup(groupPlayers));
     tx = mTextManager.LoadMessage("./assets/NewHiScore.ttf", "3050!", 45);
     SDL_Point txs;
     SDL_QueryTexture(tx, NULL, NULL, &txs.x, &txs.y);
@@ -79,7 +95,8 @@ void Game::handleEvents() {
 }
 
 void Game::update() {
-    pp->Update();
+    manager.refresh();
+    manager.update();
 }
 
 void Game::render() {
