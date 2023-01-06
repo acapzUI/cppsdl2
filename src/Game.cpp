@@ -3,7 +3,6 @@
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 
-Player *pp;
 SDL_Texture *bgTexture;
 SDL_Texture *tx;
 SDL_Rect bgOrigin = {0, 0, 10, 10};
@@ -73,13 +72,12 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         std::cout << "log : sdl_ttf initialized" << std::endl;
     }
 
-    pp = new Player("./assets/item/item8BIT_book.png", 10, 20);
-    auto &pp(manager.getGroup(groupPlayers));
     tx = mTextManager.LoadMessage("./assets/NewHiScore.ttf", "3050!", 45);
     SDL_Point txs;
     SDL_QueryTexture(tx, NULL, NULL, &txs.x, &txs.y);
     txOrigin = {0, 0, txs.x, txs.y};
     txSize = {10, 10, txs.x, txs.y};
+
     bgTexture = mTextureManager.LoadTexture("assets/black.png");
 }
 
@@ -98,6 +96,8 @@ void Game::update() {
     manager.refresh();
     manager.update();
 }
+
+auto &tiles
 
 void Game::render() {
     SDL_RenderClear(renderer);

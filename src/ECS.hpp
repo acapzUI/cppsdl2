@@ -122,7 +122,7 @@ public:
                     return !mEntity->isActive() || !mEntity->hasGroup(i);
                 }),
                 std::end(v));
-        }
+        } 
 
         entities.erase(
             std::remove_if(std::begin(entities), std::end(entities), [](const std::unique_ptr<Entity> &mEntity) {
@@ -153,16 +153,10 @@ public:
  
 /*
 
-auto &player(manager.addEntity());
-auto &wall(manager.addEntity());
-
-enum groupLabels : std::size_t
-{
-    groupMap,
-    groupPlayers,
-    groupEnemies,
-    groupColliders,
-};
+for (auto cc : colliders)
+    {
+        Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
+    }
 
 
 player.addComponent<TransformComponent>(2);
