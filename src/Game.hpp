@@ -9,7 +9,7 @@
 #include "Player.hpp"
 #include "TextureManager.hpp"
 #include "TextManager.hpp"
-#include "ECS.hpp"
+#include "ECS/ECS.hpp"
 
 class Game {
 public:

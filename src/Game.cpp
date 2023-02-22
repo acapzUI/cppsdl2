@@ -21,7 +21,7 @@ auto &player(manager.addEntity());
 // 이게 그룹임
 enum groupLabels : std::size_t {
     groupPlayers,
-    groupPlayerMissiles
+    groupPlayerMissiles,
     groupEnermy,
     groupEnermyMissiles,
     groupCoins,
@@ -97,7 +97,7 @@ void Game::update() {
     manager.update();
 }
 
-auto &tiles
+auto &tiles;
 
 void Game::render() {
     SDL_RenderClear(renderer);
