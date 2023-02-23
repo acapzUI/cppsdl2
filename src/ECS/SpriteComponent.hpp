@@ -4,6 +4,7 @@
 #include "Components.hpp"
 #include "SDL2/SDL.h"
 #include "../TextureManager.hpp"
+#include "TransformComponent.hpp"
 #include "Animation.hpp"
 #include <map>
 

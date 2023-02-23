@@ -59,7 +59,6 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     } else {
         isRunning = false;
     }
-
     if (!IMG_Init(IMG_INIT_PNG)) {
         std::cout << "log : sdl_image init failed" << std::endl
             << IMG_GetError() << std::endl;
@@ -77,6 +76,10 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     SDL_QueryTexture(tx, NULL, NULL, &txs.x, &txs.y);
     txOrigin = {0, 0, txs.x, txs.y};
     txSize = {10, 10, txs.x, txs.y};
+
+    player.addComponent<TransformComponent>(10, 10);
+    player.addComponent<SpriteComponent>("assets/item/item8BIT_bananas.png");
+    player.addGroup(groupPlayers);
 
     bgTexture = mTextureManager.LoadTexture("assets/black.png");
 }
@@ -97,13 +100,16 @@ void Game::update() {
     manager.update();
 }
 
-auto &tiles;
+auto &players(manager.getGroup(groupPlayers));
 
 void Game::render() {
     SDL_RenderClear(renderer);
     mTextureManager.Draw(bgTexture, bgOrigin, bgSize, SDL_FLIP_NONE);
-    mTextureManager.Draw(tx, txOrigin, txSize, SDL_FLIP_NONE);
-    pp->Render();
+    
+    for (auto p : players) {
+        p->draw();
+    }
+
     SDL_RenderPresent(renderer);
 }
 

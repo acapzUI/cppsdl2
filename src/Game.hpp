@@ -10,6 +10,9 @@
 #include "TextureManager.hpp"
 #include "TextManager.hpp"
 #include "ECS/ECS.hpp"
+#include "ECS/TransformComponent.hpp"
+#include "ECS/SpriteComponent.hpp"
+#include "ECS/Animation.hpp"
 
 class Game {
 public:

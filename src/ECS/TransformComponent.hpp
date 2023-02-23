@@ -2,7 +2,7 @@
 #define TransformComponent_hpp
 
 #include "Components.hpp"
-#include "../Vecor2D.hpp"
+#include "../Vector2D.hpp"
 
 class TransformComponent : public Component {
 public:
