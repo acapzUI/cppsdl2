@@ -3,9 +3,8 @@
 
 #include "Components.hpp"
 #include "SDL2/SDL.h"
-#include "../TextureManager.hpp"
-#include "TransformComponent.hpp"
 #include "Animation.hpp"
+#include "../TextureManager.hpp"
 #include <map>
 
 class SpriteComponent : public Component {
@@ -21,13 +20,13 @@ public:
     int animIndex = 0;
     std::map<const char *, Animation> animations;
 
-    SDL_RenderFlip spirteFlip = SDL_FLIP_NONE;
+    SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
     SpriteComponent() = default;
     SpriteComponent(const char *path){
         setTex(path);
     }
-    SpriteComponent(cosnt char *path, bool isAnimated){
+    SpriteComponent(const char *path, bool isAnimated){
         animated = isAnimated;
 
         Animation idle = Animation(0, 3, 200);
@@ -72,7 +71,7 @@ public:
 
     void Play(const char *animName) {
         frames = animations[animName].frames;
-        animIndex = animation[animName].index;
+        animIndex = animations[animName].index;
         speed = animations[animName].speed;
     }
 };

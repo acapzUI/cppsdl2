@@ -1,6 +1,6 @@
-#include "ECS/ECS.hpp"
+#include "ECS.hpp"
 
 void Entity::addGroup(Group mGroup) {
-    groupBits et[mGroup] = true;
+    groupBitset[mGroup] = true;
     manager.AddToGroup(this.mGroup);
 }
