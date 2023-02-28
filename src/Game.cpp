@@ -1,5 +1,10 @@
 #include "Game.hpp"
 
+#include "TextureManager.hpp"
+#include "TextManager.hpp"
+#include "Player.hpp"
+#include "ECS/Components.hpp"
+
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 

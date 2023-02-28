@@ -1,5 +1,4 @@
 #include "Player.hpp"
-#include "TextureManager.hpp"
 
 Player::Player() {
 

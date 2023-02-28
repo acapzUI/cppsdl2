@@ -1,10 +1,10 @@
 #ifndef SpriteComponent_hpp
 #define SpriteComponent_hpp
 
+#include "../TextureManager.hpp"
 #include "Components.hpp"
 #include "SDL2/SDL.h"
 #include "Animation.hpp"
-#include "../TextureManager.hpp"
 #include <map>
 
 class SpriteComponent : public Component {

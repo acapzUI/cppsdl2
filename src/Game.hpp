@@ -6,10 +6,6 @@
 #include "SDL2/SDL_ttf.h"
 #include <iostream>
 
-#include "Player.hpp"
-#include "TextureManager.hpp"
-#include "TextManager.hpp"
-#include "ECS/Components.hpp"
 
 class Game {
 public:
@@ -17,6 +13,7 @@ public:
     ~Game();
 
     void init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen);
+
 
     void handleEvents();
     void update();
