@@ -149,28 +149,3 @@ public:
 };
 
 #endif 
-
- 
-/*
-
-for (auto cc : colliders)
-    {
-        Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
-    }
-
-
-player.addComponent<TransformComponent>(2);
-    player.addComponent<SpriteComponent>("assets/player2.png");
-    player.addComponent<KeyboardController>();
-    player.addGroup(groupPlayers);
-
-for (auto &p : players)
-    {
-        p->draw();
-    }
-    for (auto &e : enemies)
-    {
-        e->draw();
-    }    
-
-*/

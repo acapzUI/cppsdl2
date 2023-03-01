@@ -2,11 +2,16 @@
 
 #include "TextureManager.hpp"
 #include "TextManager.hpp"
-#include "Player.hpp"
 #include "ECS/Components.hpp"
+#include "Collision.hpp"
+
+#include <cstdlib>
+#include <windows.h>
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
+
+std::vector<ColliderComponent *> Game::colliders;
 
 SDL_Texture *bgTexture;
 SDL_Texture *tx;
@@ -20,10 +25,8 @@ TextManager mTextManager;
 
 Manager manager;
 
-// 엔티티임
 auto &player(manager.addEntity());
 
-// 이게 그룹임
 enum groupLabels : std::size_t {
     groupPlayers,
     groupPlayerMissiles,
@@ -83,10 +86,14 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     txSize = {10, 10, txs.x, txs.y};
 
     player.addComponent<TransformComponent>(10, 10);
-    player.addComponent<SpriteComponent>("assets/item/item8BIT_bananas.png");
+    player.addComponent<SpriteComponent>("assets/item/item8BIT_skull.png");
+    player.addComponent<KeyboardController>();
+    player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
 
     bgTexture = mTextureManager.LoadTexture("assets/black.png");
+
+    srand(GetTickCount());
 }
 
 void Game::handleEvents() {
@@ -100,12 +107,34 @@ void Game::handleEvents() {
     }
 }
 
+int t=0;
 void Game::update() {
     manager.refresh();
+
+    if (t>20) {
+        auto &coinDummy(manager.addEntity());
+        coinDummy.addComponent<TransformComponent>(20+(rand()%420), 20+(rand()%420));
+        coinDummy.addComponent<SpriteComponent>("assets/item/item8BIT_coin.png");
+        coinDummy.addComponent<ColliderComponent>("coin");
+        coinDummy.addGroup(groupCoins);
+        t=0;
+    }
+    t++;
+
+    for (auto cc : colliders) {
+        if (Collision::AABB(player.getComponent<ColliderComponent>(), *cc)) {
+            cc->entity->destroy();
+        }
+    }
+
     manager.update();
 }
 
 auto &players(manager.getGroup(groupPlayers));
+auto &playerMissiles(manager.getGroup(groupPlayerMissiles));
+auto &enermys(manager.getGroup(groupEnermy));
+auto &enermyMissiles(manager.getGroup(groupEnermyMissiles));
+auto &coins(manager.getGroup(groupCoins));
 
 void Game::render() {
     SDL_RenderClear(renderer);
@@ -114,6 +143,20 @@ void Game::render() {
     for (auto p : players) {
         p->draw();
     }
+    for (auto e : enermys) {
+        e->draw();
+    }
+    for (auto pm : playerMissiles) {
+        pm->draw();
+    }
+    for (auto em : enermyMissiles) {
+        em->draw();
+    }
+    for (auto c : coins) {
+        c->draw();
+    }
+
+    //mTextureManager.Draw(tx, txOrigin, txSize, SDL_FLIP_NONE);
 
     SDL_RenderPresent(renderer);
 }
