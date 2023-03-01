@@ -9,6 +9,7 @@ bool Collision::AABB(const ColliderComponent &colA, const ColliderComponent &col
     if (AABB(colA.collider, colB.collider) && (colA.tag != colB.tag)) {
         std::cout << colA.tag << " hit: " << colB.tag << std::endl;
         if (colA.tag=="player" && colB.tag=="coin") {
+            colB.entity->destroy();
             return true;
         }
     }

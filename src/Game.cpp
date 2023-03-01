@@ -79,13 +79,15 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         std::cout << "log : sdl_ttf initialized" << std::endl;
     }
 
+/*
     tx = mTextManager.LoadMessage("./assets/NewHiScore.ttf", "3050!", 45);
     SDL_Point txs;
     SDL_QueryTexture(tx, NULL, NULL, &txs.x, &txs.y);
     txOrigin = {0, 0, txs.x, txs.y};
     txSize = {10, 10, txs.x, txs.y};
+*/
 
-    player.addComponent<TransformComponent>(10, 10);
+    player.addComponent<TransformComponent>(10, 10, 16, 16, 1);
     player.addComponent<SpriteComponent>("assets/item/item8BIT_skull.png");
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player");
@@ -113,7 +115,7 @@ void Game::update() {
 
     if (t>20) {
         auto &coinDummy(manager.addEntity());
-        coinDummy.addComponent<TransformComponent>(20+(rand()%420), 20+(rand()%420));
+        coinDummy.addComponent<TransformComponent>(20+(rand()%420), 20+(rand()%420), 16, 16, 1);
         coinDummy.addComponent<SpriteComponent>("assets/item/item8BIT_coin.png");
         coinDummy.addComponent<ColliderComponent>("coin");
         coinDummy.addGroup(groupCoins);
@@ -122,9 +124,12 @@ void Game::update() {
     t++;
 
     for (auto cc : colliders) {
+        /*
         if (Collision::AABB(player.getComponent<ColliderComponent>(), *cc)) {
             cc->entity->destroy();
         }
+        */
+       Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
     }
 
     manager.update();
