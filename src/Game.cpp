@@ -87,10 +87,10 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     txSize = {10, 10, txs.x, txs.y};
 */
 
-    player.addComponent<TransformComponent>(10, 10, 16, 16, 1);
+    player.addComponent<TransformComponent>(10, 10, 32, 32, 1);
     player.addComponent<SpriteComponent>("assets/item/item8BIT_skull.png");
     player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player");
+    player.addComponent<ColliderComponent>("player", 24, 24 );
     player.addGroup(groupPlayers);
 
     bgTexture = mTextureManager.LoadTexture("assets/black.png");
@@ -113,11 +113,11 @@ int t=0;
 void Game::update() {
     manager.refresh();
 
-    if (t>20) {
+    if (t>5/*&& manager.getGroup(groupCoins).size() < 500*/) {
         auto &coinDummy(manager.addEntity());
-        coinDummy.addComponent<TransformComponent>(20+(rand()%420), 20+(rand()%420), 16, 16, 1);
+        coinDummy.addComponent<TransformComponent>(20+(rand()%420), 20+(rand()%420), 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("assets/item/item8BIT_coin.png");
-        coinDummy.addComponent<ColliderComponent>("coin");
+        coinDummy.addComponent<ColliderComponent>("coin", 24, 24);
         coinDummy.addGroup(groupCoins);
         t=0;
     }
