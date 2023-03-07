@@ -17,6 +17,9 @@
                 "-lSDL2_image",
                 "-lSDL2_ttf",
                 "-lSDL2",
+                //"-fsanitize=address",
+                //"-static-libasan",
+                //"-lasan",
                 "-Wwrite-strings"
             ],
             "options": {
