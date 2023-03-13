@@ -109,13 +109,16 @@ void Game::handleEvents() {
     }
 }
 
-int t=0;
+int t = 0;
+int num = 0;
 void Game::update() {
     manager.refresh();
 
-    if (t>5/*&& manager.getGroup(groupCoins).size() < 500*/) {
+    if (t>5 && manager.getGroup(groupCoins).size() < 470) {
+        num++;
+        std::cout << num << std::endl;
         auto &coinDummy(manager.addEntity());
-        coinDummy.addComponent<TransformComponent>(20+(rand()%420), 20+(rand()%420), 32, 32, 1);
+        coinDummy.addComponent<TransformComponent>(40/*+(rand()%420)*/, 40/*+(rand()%420)*/, 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("assets/item/item8BIT_coin.png");
         coinDummy.addComponent<ColliderComponent>("coin", 24, 24);
         coinDummy.addGroup(groupCoins);
@@ -129,7 +132,7 @@ void Game::update() {
             cc->entity->destroy();
         }
         */
-       Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
+        Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
     }
 
     manager.update();
