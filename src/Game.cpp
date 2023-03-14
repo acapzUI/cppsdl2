@@ -3,6 +3,7 @@
 #include "TextureManager.hpp"
 #include "TextManager.hpp"
 #include "ECS/Components.hpp"
+#include "Vector2D.hpp"
 #include "Collision.hpp"
 
 #include <cstdlib>
@@ -33,15 +34,17 @@ enum groupLabels : std::size_t {
     groupEnermy,
     groupEnermyMissiles,
     groupCoins,
-    groupColliders,
+    groupColliders
 };
 
-Game::Game() {
+auto &players(manager.getGroup(groupPlayers));
+auto &playerMissiles(manager.getGroup(groupPlayerMissiles));
+auto &enermys(manager.getGroup(groupEnermy));
+auto &enermyMissiles(manager.getGroup(groupEnermyMissiles));
+auto &coins(manager.getGroup(groupCoins));
 
-}
-Game::~Game() {
-
-}
+Game::Game() {}
+Game::~Game() {}
 
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
     int flags = 0;
@@ -98,6 +101,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     srand(GetTickCount());
 }
 
+
 void Game::handleEvents() {
     SDL_PollEvent(&event);
     switch (event.type) {
@@ -110,15 +114,14 @@ void Game::handleEvents() {
 }
 
 int t = 0;
-int num = 0;
 void Game::update() {
     manager.refresh();
+    manager.update();
 
-    if (t>5 && manager.getGroup(groupCoins).size() < 470) {
-        num++;
-        std::cout << num << std::endl;
+    if (t>2 && manager.getGroup(groupCoins).size() < 45) {
+        std::cout << manager.getGroup(groupCoins).size() << std::endl;
         auto &coinDummy(manager.addEntity());
-        coinDummy.addComponent<TransformComponent>(40/*+(rand()%420)*/, 40/*+(rand()%420)*/, 32, 32, 1);
+        coinDummy.addComponent<TransformComponent>(40+(rand()%40), 40+(rand()%40), 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("assets/item/item8BIT_coin.png");
         coinDummy.addComponent<ColliderComponent>("coin", 24, 24);
         coinDummy.addGroup(groupCoins);
@@ -126,23 +129,14 @@ void Game::update() {
     }
     t++;
 
-    for (auto cc : colliders) {
-        /*
-        if (Collision::AABB(player.getComponent<ColliderComponent>(), *cc)) {
-            cc->entity->destroy();
+    for (auto cc : coins) {
+        if (Collision::AABB(player.getComponent<ColliderComponent>().collider, cc->getComponent<ColliderComponent>().collider)) {
+            cc->destroy();
         }
-        */
-        Collision::AABB(player.getComponent<ColliderComponent>(), *cc);
     }
-
-    manager.update();
 }
 
-auto &players(manager.getGroup(groupPlayers));
-auto &playerMissiles(manager.getGroup(groupPlayerMissiles));
-auto &enermys(manager.getGroup(groupEnermy));
-auto &enermyMissiles(manager.getGroup(groupEnermyMissiles));
-auto &coins(manager.getGroup(groupCoins));
+
 
 void Game::render() {
     SDL_RenderClear(renderer);
