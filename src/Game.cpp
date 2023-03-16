@@ -5,14 +5,17 @@
 #include "ECS/Components.hpp"
 #include "Vector2D.hpp"
 #include "Collision.hpp"
+#include "AssetManager.hpp"
 
 #include <cstdlib>
 #include <windows.h>
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
+Manager manager;
 
 std::vector<ColliderComponent *> Game::colliders;
+AssetManager* Game::assets = new AssetManager(&manager);
 
 SDL_Texture *bgTexture;
 SDL_Texture *tx;
@@ -24,9 +27,8 @@ SDL_Rect txSize;
 TextureManager mTextureManager;
 TextManager mTextManager;
 
-Manager manager;
-
 auto &player(manager.addEntity());
+auto &score(manager.addEntity());
 
 enum groupLabels : std::size_t {
     groupPlayers,
@@ -90,14 +92,18 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     txSize = {10, 10, txs.x, txs.y};
 */
 
+    assets->AddFont("hiscore", "./assets/NewHiScore.ttf", 45);
+    assets->AddTexture("skull", "assets/item/item8BIT_skull.png");
+    assets->AddTexture("coin", "assets/item/item8BIT_coin.png");
+    assets->AddTexture("bg", "assets/black.png");
+
     player.addComponent<TransformComponent>(10, 10, 32, 32, 1);
-    player.addComponent<SpriteComponent>("assets/item/item8BIT_skull.png");
+    player.addComponent<SpriteComponent>("skull");
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player", 24, 24 );
     player.addGroup(groupPlayers);
 
-    bgTexture = mTextureManager.LoadTexture("assets/black.png");
-
+    bgTexture = assets->GetTexture("bg");
     srand(GetTickCount());
 }
 
@@ -122,7 +128,7 @@ void Game::update() {
         std::cout << manager.getGroup(groupCoins).size() << std::endl;
         auto &coinDummy(manager.addEntity());
         coinDummy.addComponent<TransformComponent>(40+(rand()%40), 40+(rand()%40), 32, 32, 1);
-        coinDummy.addComponent<SpriteComponent>("assets/item/item8BIT_coin.png");
+        coinDummy.addComponent<SpriteComponent>("coin");
         coinDummy.addComponent<ColliderComponent>("coin", 24, 24);
         coinDummy.addGroup(groupCoins);
         t=0;

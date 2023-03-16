@@ -5,6 +5,7 @@
 #include "Components.hpp"
 #include "SDL2/SDL.h"
 #include "Animation.hpp"
+#include "../AssetManager.hpp"
 #include <map>
 
 class SpriteComponent : public Component {
@@ -23,6 +24,22 @@ public:
     SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
     SpriteComponent() = default;
+    SpriteComponent(std::string id) {
+        setTex(id);
+    }
+    SpriteComponent(std::string id, bool isAnimated) {
+        animated = isAnimated;
+
+        Animation idle = Animation(0, 3, 200);
+        Animation walk = Animation(1, 8, 300);
+
+        animations.emplace("idle", idle);
+        animations.emplace("walk", walk);
+
+        Play("idle");
+        setTex(id);
+    }
+    /*
     SpriteComponent(const char *path){
         setTex(path);
     }
@@ -38,13 +55,18 @@ public:
         Play("Idle");
         setTex(path);
     }
+    */
     ~SpriteComponent() {
-        SDL_DestroyTexture(texture);
     }
 
+    void setTex(std::string id) {
+        texture = Game::assets->GetTexture(id);
+    }
+    /*
     void setTex(const char *path) {
         texture = TextureManager::LoadTexture(path);
     }
+    */
     void init() override {
         transform = &entity->getComponent<TransformComponent>();
         srcRect.x = srcRect.y = 0;

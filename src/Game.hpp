@@ -8,6 +8,7 @@
 #include <vector>
 
 class ColliderComponent;
+class AssetManager;
 
 class Game {
 public:
@@ -25,6 +26,7 @@ public:
     static SDL_Renderer *renderer;
     static SDL_Event event;
     static std::vector<ColliderComponent *> colliders;
+    static AssetManager *assets;
 
 private:
     int cnt = 0;
