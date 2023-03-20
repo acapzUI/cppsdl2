@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 #include "TextureManager.hpp"
-#include "TextManager.hpp"
+//#include "TextManager.hpp"
 #include "ECS/Components.hpp"
 #include "Vector2D.hpp"
 #include "Collision.hpp"
@@ -25,10 +25,10 @@ SDL_Rect txOrigin;
 SDL_Rect txSize;
 
 TextureManager mTextureManager;
-TextManager mTextManager;
+//TextManager mTextManager;
 
 auto &player(manager.addEntity());
-auto &score(manager.addEntity());
+auto &score(manager.addEntity()); 
 
 enum groupLabels : std::size_t {
     groupPlayers,
@@ -100,8 +100,11 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     player.addComponent<TransformComponent>(10, 10, 32, 32, 1);
     player.addComponent<SpriteComponent>("skull");
     player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player", 24, 24 );
+    player.addComponent<ColliderComponent>("player", 24, 24);
     player.addGroup(groupPlayers);
+
+    SDL_Color white = {.r=255, .g=255, .b=255};
+    score.addComponent<TextComponent>(100, 20, "hiscore", white);
 
     bgTexture = assets->GetTexture("bg");
     srand(GetTickCount());
