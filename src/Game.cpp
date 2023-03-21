@@ -97,6 +97,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 */
 
     assets->AddFont("hiscore", "./assets/NewHiScore.ttf", 18);
+    assets->AddFont("gothic", "./assets/NEXONLv1GothicBold.ttf", 24);
     assets->AddTexture("skull", "assets/item/item8BIT_skull.png");
     assets->AddTexture("coin", "assets/item/item8BIT_coin.png");
     assets->AddTexture("bg", "assets/black.png");
@@ -108,7 +109,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     player.addGroup(groupPlayers);
 
     SDL_Color white = {.r=255, .g=255, .b=255};
-    scoreEntity.addComponent<TextComponent>(100, 20, "0", "hiscore", white);
+    scoreEntity.addComponent<TextComponent>(100, 20, "0", "gothic", white);
     scoreEntity.addGroup(groupUI);
 
     bgTexture = assets->GetTexture("bg");
@@ -147,7 +148,7 @@ void Game::update() {
         if (Collision::AABB(player.getComponent<ColliderComponent>().collider, cc->getComponent<ColliderComponent>().collider)) {
             cc->destroy();
             score += 1;
-            scoreEntity.getComponent<TextComponent>().SetLabelText(std::to_string(score), "hiscore");
+            scoreEntity.getComponent<TextComponent>().SetLabelText(std::to_string(score), "gothic");
         }
     }
 }
