@@ -28,7 +28,7 @@ TextureManager mTextureManager;
 //TextManager mTextManager;
 
 auto &player(manager.addEntity());
-auto &score(manager.addEntity()); 
+auto &scoreEntity(manager.addEntity()); 
 
 enum groupLabels : std::size_t {
     groupPlayers,
@@ -36,14 +36,18 @@ enum groupLabels : std::size_t {
     groupEnermy,
     groupEnermyMissiles,
     groupCoins,
-    groupColliders
+    groupColliders,
+    groupUI
 };
+
+int score = 0;
 
 auto &players(manager.getGroup(groupPlayers));
 auto &playerMissiles(manager.getGroup(groupPlayerMissiles));
 auto &enermys(manager.getGroup(groupEnermy));
 auto &enermyMissiles(manager.getGroup(groupEnermyMissiles));
 auto &coins(manager.getGroup(groupCoins));
+auto &uis(manager.getGroup(groupUI));
 
 Game::Game() {}
 Game::~Game() {}
@@ -92,7 +96,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     txSize = {10, 10, txs.x, txs.y};
 */
 
-    assets->AddFont("hiscore", "./assets/NewHiScore.ttf", 45);
+    assets->AddFont("hiscore", "./assets/NewHiScore.ttf", 18);
     assets->AddTexture("skull", "assets/item/item8BIT_skull.png");
     assets->AddTexture("coin", "assets/item/item8BIT_coin.png");
     assets->AddTexture("bg", "assets/black.png");
@@ -104,7 +108,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     player.addGroup(groupPlayers);
 
     SDL_Color white = {.r=255, .g=255, .b=255};
-    score.addComponent<TextComponent>(100, 20, "hiscore", white);
+    scoreEntity.addComponent<TextComponent>(100, 20, "0", "hiscore", white);
+    scoreEntity.addGroup(groupUI);
 
     bgTexture = assets->GetTexture("bg");
     srand(GetTickCount());
@@ -141,6 +146,8 @@ void Game::update() {
     for (auto cc : coins) {
         if (Collision::AABB(player.getComponent<ColliderComponent>().collider, cc->getComponent<ColliderComponent>().collider)) {
             cc->destroy();
+            score += 1;
+            scoreEntity.getComponent<TextComponent>().SetLabelText(std::to_string(score), "hiscore");
         }
     }
 }
@@ -165,6 +172,9 @@ void Game::render() {
     }
     for (auto c : coins) {
         c->draw();
+    }
+    for (auto ui : uis) {
+        ui->draw();
     }
 
     //mTextureManager.Draw(tx, txOrigin, txSize, SDL_FLIP_NONE);
