@@ -14,6 +14,8 @@ SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
 
+SDL_Rect Game::camera = {0, 0, 800, 640};
+
 std::vector<ColliderComponent *> Game::colliders;
 AssetManager* Game::assets = new AssetManager(&manager);
 
@@ -109,13 +111,12 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     player.addGroup(groupPlayers);
 
     SDL_Color white = {.r=255, .g=255, .b=255};
-    scoreEntity.addComponent<TextComponent>(100, 20, "0", "gothic", white);
+    scoreEntity.addComponent<TextComponent>(300, 20, "score = 0", "gothic", white);
     scoreEntity.addGroup(groupUI);
 
     bgTexture = assets->GetTexture("bg");
     srand(GetTickCount());
 }
-
 
 void Game::handleEvents() {
     SDL_PollEvent(&event);
@@ -128,11 +129,12 @@ void Game::handleEvents() {
     }
 }
 
-int t = 0;
+int t = 0; // alarm
 void Game::update() {
     manager.refresh();
     manager.update();
 
+    // coin 생성
     if (t>2 && manager.getGroup(groupCoins).size() < 45) {
         std::cout << manager.getGroup(groupCoins).size() << std::endl;
         auto &coinDummy(manager.addEntity());
@@ -148,7 +150,7 @@ void Game::update() {
         if (Collision::AABB(player.getComponent<ColliderComponent>().collider, cc->getComponent<ColliderComponent>().collider)) {
             cc->destroy();
             score += 1;
-            scoreEntity.getComponent<TextComponent>().SetLabelText(std::to_string(score), "gothic");
+            scoreEntity.getComponent<TextComponent>().SetLabelText("score = " + std::to_string(score), "gothic");
         }
     }
 }
