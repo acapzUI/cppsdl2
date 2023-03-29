@@ -14,7 +14,7 @@ SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
 
-SDL_Rect Game::camera = {0, 0, 800, 640};
+SDL_Rect Game::camera = {0, 0, 480, 480};
 
 std::vector<ColliderComponent *> Game::colliders;
 AssetManager* Game::assets = new AssetManager(&manager);
@@ -124,7 +124,7 @@ void Game::handleEvents() {
     case SDL_QUIT:
         isRunning = false;
         break;
-    default:
+    default: 
         break;
     }
 }
@@ -136,7 +136,7 @@ void Game::update() {
 
     // coin 생성
     if (t>2 && manager.getGroup(groupCoins).size() < 45) {
-        std::cout << manager.getGroup(groupCoins).size() << std::endl;
+        //std::cout << manager.getGroup(groupCoins).size() << std::endl;
         auto &coinDummy(manager.addEntity());
         coinDummy.addComponent<TransformComponent>(40+(rand()%40), 40+(rand()%40), 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("coin");
@@ -146,6 +146,7 @@ void Game::update() {
     }
     t++;
 
+    // coin - player collider 
     for (auto cc : coins) {
         if (Collision::AABB(player.getComponent<ColliderComponent>().collider, cc->getComponent<ColliderComponent>().collider)) {
             cc->destroy();
@@ -153,6 +154,18 @@ void Game::update() {
             scoreEntity.getComponent<TextComponent>().SetLabelText("score = " + std::to_string(score), "gothic");
         }
     }
+
+    camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 240);
+    camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 240);
+
+    if (camera.x < 0) 
+        camera.x = 0;
+    if (camera.y < 0) 
+        camera.y = 0;
+    if (camera.x > camera.w)
+        camera.x = camera.w;
+    if (camera.y > camera.h)
+        camera.y = camera.h;
 }
 
 
