@@ -2,6 +2,7 @@
 
 #include "TextureManager.hpp"
 //#include "TextManager.hpp"
+#include "Map.hpp"
 #include "ECS/Components.hpp"
 #include "Vector2D.hpp"
 #include "Collision.hpp"
@@ -13,6 +14,7 @@
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
+Map *map;
 
 SDL_Rect Game::camera = {0, 0, 480, 480};
 
@@ -32,24 +34,15 @@ TextureManager mTextureManager;
 auto &player(manager.addEntity());
 auto &scoreEntity(manager.addEntity()); 
 
-enum groupLabels : std::size_t {
-    groupPlayers,
-    groupPlayerMissiles,
-    groupEnermy,
-    groupEnermyMissiles,
-    groupCoins,
-    groupColliders,
-    groupUI
-};
-
 int score = 0;
 
-auto &players(manager.getGroup(groupPlayers));
-auto &playerMissiles(manager.getGroup(groupPlayerMissiles));
-auto &enermys(manager.getGroup(groupEnermy));
-auto &enermyMissiles(manager.getGroup(groupEnermyMissiles));
-auto &coins(manager.getGroup(groupCoins));
-auto &uis(manager.getGroup(groupUI));
+auto &players(manager.getGroup(Game::groupPlayers));
+auto &playerMissiles(manager.getGroup(Game::groupPlayerMissiles));
+auto &enermys(manager.getGroup(Game::groupEnermy));
+auto &enermyMissiles(manager.getGroup(Game::groupEnermyMissiles));
+auto &coins(manager.getGroup(Game::groupCoins));
+auto &uis(manager.getGroup(Game::groupUI));
+auto &tiles(manager.getGroup(Game::groupMap));
 
 Game::Game() {}
 Game::~Game() {}
@@ -103,12 +96,16 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     assets->AddTexture("skull", "assets/item/item8BIT_skull.png");
     assets->AddTexture("coin", "assets/item/item8BIT_coin.png");
     assets->AddTexture("bg", "assets/black.png");
+    assets->AddTexture("terrain", "assets/terrain_ss.png");
 
     player.addComponent<TransformComponent>(10, 10, 32, 32, 1);
     player.addComponent<SpriteComponent>("skull");
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player", 24, 24);
     player.addGroup(groupPlayers);
+
+    map = new Map("terrain", 3, 32);
+    map->LoadMap("assets/map/lv1.map", 25, 20);
 
     SDL_Color white = {.r=255, .g=255, .b=255};
     scoreEntity.addComponent<TextComponent>(300, 20, "score = 0", "gothic", white);
@@ -174,6 +171,9 @@ void Game::render() {
     SDL_RenderClear(renderer);
     mTextureManager.Draw(bgTexture, bgOrigin, bgSize, SDL_FLIP_NONE);
     
+    for (auto t : tiles) {
+        t->draw();
+    } 
     for (auto p : players) {
         p->draw();
     }

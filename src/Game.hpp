@@ -29,6 +29,17 @@ public:
     static AssetManager *assets;
     static SDL_Rect camera;
 
+    enum groupLabels : std::size_t {
+        groupPlayers,
+        groupPlayerMissiles,
+        groupEnermy,
+        groupEnermyMissiles,
+        groupCoins,
+        groupColliders,
+        groupUI,
+        groupMap
+    };
+
 private:
     int cnt = 0;
     bool isRunning = false;

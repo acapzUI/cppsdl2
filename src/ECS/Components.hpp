@@ -8,5 +8,6 @@
 #include "ColliderComponent.hpp"
 #include "TextComponent.hpp"
 #include "ProjectileComponent.hpp"
+#include "TileComponent.hpp"
 
 #endif
