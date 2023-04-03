@@ -101,7 +101,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     player.addComponent<TransformComponent>(10, 10, 32, 32, 1);
     player.addComponent<SpriteComponent>("skull");
     player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player", 24, 24);
+    player.addComponent<ColliderComponent>("player");
     player.addGroup(groupPlayers);
 
     map = new Map("terrain", 3, 32);
@@ -135,9 +135,11 @@ void Game::update() {
     if (t>2 && manager.getGroup(groupCoins).size() < 45) {
         //std::cout << manager.getGroup(groupCoins).size() << std::endl;
         auto &coinDummy(manager.addEntity());
-        coinDummy.addComponent<TransformComponent>(40+(rand()%40), 40+(rand()%40), 32, 32, 1);
+        int xtmp = 40+(rand()%40);
+        int ytmp = 40+(rand()%40);
+        coinDummy.addComponent<TransformComponent>(xtmp, ytmp, 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("coin");
-        coinDummy.addComponent<ColliderComponent>("coin", 24, 24);
+        coinDummy.addComponent<ColliderComponent>("coin", xtmp, ytmp, 24);
         coinDummy.addGroup(groupCoins);
         t=0;
     }
