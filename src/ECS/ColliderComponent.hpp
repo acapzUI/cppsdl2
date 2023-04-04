@@ -5,7 +5,7 @@
 #include "SDL2/SDL.h"
 #include "Components.hpp"
 
-// https://github.com/carlbirch/BirchEngine/blob/master/BirchEngine/Src/ECS/ColliderComponent.h
+// https://github.com/carlbirch/BirchEngine/blob/master/BirchEngine/Src/ECS/ColliderComponent.hx
 
 class ColliderComponent : public Component {
 public:

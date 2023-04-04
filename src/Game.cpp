@@ -135,8 +135,8 @@ void Game::update() {
     if (t>2 && manager.getGroup(groupCoins).size() < 45) {
         //std::cout << manager.getGroup(groupCoins).size() << std::endl;
         auto &coinDummy(manager.addEntity());
-        int xtmp = 40+(rand()%40);
-        int ytmp = 40+(rand()%40);
+        int xtmp = 40+(rand()%320);
+        int ytmp = 40+(rand()%320);
         coinDummy.addComponent<TransformComponent>(xtmp, ytmp, 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("coin");
         coinDummy.addComponent<ColliderComponent>("coin", xtmp, ytmp, 24);
@@ -157,14 +157,18 @@ void Game::update() {
     camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 240);
     camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 240);
 
+
+    // camera left border
     if (camera.x < 0) 
         camera.x = 0;
     if (camera.y < 0) 
         camera.y = 0;
-    if (camera.x > camera.w)
-        camera.x = camera.w;
-    if (camera.y > camera.h)
-        camera.y = camera.h;
+
+    // camera right border
+    if (camera.x > camera.w*2)
+        camera.x = camera.w*2;
+    if (camera.y > camera.h*2)
+        camera.y = camera.h*2;
 }
 
 
