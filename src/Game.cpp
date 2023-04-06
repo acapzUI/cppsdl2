@@ -157,7 +157,6 @@ void Game::update() {
     camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 240);
     camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 240);
 
-
     // camera left border
     if (camera.x < 0) 
         camera.x = 0;
