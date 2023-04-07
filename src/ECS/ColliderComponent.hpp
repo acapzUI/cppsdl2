@@ -17,6 +17,11 @@ public:
 
     TransformComponent *transform;
     
+    int xborder;
+    int yborder;
+    int width;
+    int height;
+
     //int width, height = 0;
 
     ColliderComponent(std::string t) {
@@ -34,6 +39,13 @@ public:
         collider.x = xpos;
         collider.y = ypos;
         collider.w = collider.h = size;
+    }
+    ColliderComponent(std::string t, int xpos, int ypos, int collwidth, int collheight) {
+        tag = t;
+        xborder = xpos;
+        yborder = ypos;
+        width = collwidth;
+        height = collheight;
     }
 
     void init() override {
@@ -53,13 +65,15 @@ public:
         collider.h = static_cast<int>(transform->height * transform->scale);*/
     }
     void update() override {
-
+        
         if (tag != "terrain") {
             collider.x = static_cast<int>(transform->position.x);
             collider.y = static_cast<int>(transform->position.y);
             collider.w = transform->width * transform->scale;
             collider.h = transform->height * transform->scale;
         }
+
+
 
         destR.x = collider.x - Game::camera.x;
         destR.y = collider.y - Game::camera.y;

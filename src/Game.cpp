@@ -139,7 +139,7 @@ void Game::update() {
         int ytmp = 40+(rand()%320);
         coinDummy.addComponent<TransformComponent>(xtmp, ytmp, 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("coin");
-        coinDummy.addComponent<ColliderComponent>("coin", xtmp, ytmp, 24);
+        coinDummy.addComponent<ColliderComponent>("coin", xtmp, ytmp, 10);
         coinDummy.addGroup(groupCoins);
         t=0;
     }
