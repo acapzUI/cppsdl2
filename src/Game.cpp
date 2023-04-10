@@ -101,7 +101,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     player.addComponent<TransformComponent>(10, 10, 32, 32, 1);
     player.addComponent<SpriteComponent>("skull");
     player.addComponent<KeyboardController>();
-    player.addComponent<ColliderComponent>("player");
+    player.addComponent<ColliderComponent>("player", 5, 5, 20, 25);
     player.addGroup(groupPlayers);
 
     map = new Map("terrain", 3, 32);
@@ -139,7 +139,7 @@ void Game::update() {
         int ytmp = 40+(rand()%320);
         coinDummy.addComponent<TransformComponent>(xtmp, ytmp, 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("coin");
-        coinDummy.addComponent<ColliderComponent>("coin", xtmp, ytmp, 10);
+        coinDummy.addComponent<ColliderComponent>("coin", 10, 10, 15, 15);
         coinDummy.addGroup(groupCoins);
         t=0;
     }

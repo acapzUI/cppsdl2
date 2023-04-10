@@ -5,8 +5,6 @@
 #include "SDL2/SDL.h"
 #include "Components.hpp"
 
-// https://github.com/carlbirch/BirchEngine/blob/master/BirchEngine/Src/ECS/ColliderComponent.hx
-
 class ColliderComponent : public Component {
 public:
     SDL_Rect collider;
@@ -67,16 +65,18 @@ public:
     void update() override {
         
         if (tag != "terrain") {
-            collider.x = static_cast<int>(transform->position.x);
-            collider.y = static_cast<int>(transform->position.y);
-            collider.w = transform->width * transform->scale;
-            collider.h = transform->height * transform->scale;
+            collider.x = static_cast<int>(transform->position.x) + xborder;
+            collider.y = static_cast<int>(transform->position.y) + yborder;
+            collider.w = /*transform->width*/ width * transform->scale;
+            collider.h = /*transform->height*/ height * transform->scale;
         }
 
 
 
         destR.x = collider.x - Game::camera.x;
         destR.y = collider.y - Game::camera.y;
+        destR.w = collider.w;
+        destR.h = collider.h;
 
         /*collider.x = static_cast<int>(transform->position.x);
         collider.y = static_cast<int>(transform->position.y);*/
