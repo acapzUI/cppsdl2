@@ -9,5 +9,6 @@
 #include "TextComponent.hpp"
 #include "ProjectileComponent.hpp"
 #include "TileComponent.hpp"
+#include "ClickComponent.hpp"
 
 #endif

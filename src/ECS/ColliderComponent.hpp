@@ -45,7 +45,6 @@ public:
         width = collwidth;
         height = collheight;
     }
-
     void init() override {
         if (!entity->hasComponent<TransformComponent>()) {
             entity->addComponent<TransformComponent>();
@@ -70,8 +69,6 @@ public:
             collider.w = /*transform->width*/ width * transform->scale;
             collider.h = /*transform->height*/ height * transform->scale;
         }
-
-
 
         destR.x = collider.x - Game::camera.x;
         destR.y = collider.y - Game::camera.y;
