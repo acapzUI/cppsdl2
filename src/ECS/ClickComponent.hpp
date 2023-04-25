@@ -10,11 +10,15 @@ public:
     void init() override {
         
     }
+    void update() {
+        if (Game::event.type == SDL_MOUSEBUTTONDOWN) { 
+            if event.button.x 
+        }
+    }
 
 private:
     int depth; 
-    int quads;
-}
-
+    SDL_Rect size = {0, 0, 0, 0};
+};
 
 #endif
