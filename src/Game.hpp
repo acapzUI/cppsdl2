@@ -40,6 +40,8 @@ public:
         groupMap
     };
 
+    int uiDepth = 0;
+
 private:
     int cnt = 0;
     bool isRunning = false;
