@@ -51,7 +51,6 @@ public:
 
 private:
     int depth;
-    
 };
 
 #endif
