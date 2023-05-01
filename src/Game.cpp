@@ -140,6 +140,7 @@ void Game::update() {
         coinDummy.addComponent<TransformComponent>(xtmp, ytmp, 32, 32, 1);
         coinDummy.addComponent<SpriteComponent>("coin");
         coinDummy.addComponent<ColliderComponent>("coin", 10, 10, 15, 15);
+        coinDummy.addComponent<ClickComponent>(0, 10, 10, 15, 15);
         coinDummy.addGroup(groupCoins);
         t=0;
     }
@@ -153,6 +154,9 @@ void Game::update() {
             scoreEntity.getComponent<TextComponent>().SetLabelText("score = " + std::to_string(score), "gothic");
         }
     }
+
+    // DUMMY : coin click
+    for (auto )
 
     camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 240);
     camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 240);

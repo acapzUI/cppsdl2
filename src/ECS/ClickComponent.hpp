@@ -20,9 +20,12 @@ public:
     SDL_Rect size = {x=0, y=0, w=0, h=0};
 
 
-    ClickComponent(int d, SDL_Rect r) {
+    ClickComponent(int d, int xpos, int ypos, int width, int height) {
         depth = d;
-        size = r;
+        size.x = xpos;
+        size.y = ypos;
+        size.w = width;
+        size.h = height;
     }
 
     void init() override {
@@ -33,17 +36,19 @@ public:
         
     }
     void update() override {
+        /*
         if (Game::event.type == SDL_MOUSEBUTTONDOWN) { 
             if (event.button.x >= size.x && event.button.x <= size.x+size.w && event.button.y >= size.y && event.button.y <= size.y+size.h) {
-                /*
-                if (depth == Game::uiDepth) {
+                
+                //if (depth == Game::uiDepth) {
                     // todo : 
 
-                }
-                */
+                //}
+                
                // todo : 
             }
         }
+        */
     }
     void draw() override {
         TextureManager::Draw(tex, srcRect, destRect, SDL_FLIP_NONE);
@@ -51,6 +56,7 @@ public:
 
 private:
     int depth;
+
 };
 
 #endif
