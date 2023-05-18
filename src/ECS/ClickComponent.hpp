@@ -17,7 +17,7 @@ public:
 
     SDL_Texture *tex;
     SDL_Rect srcRect, destRect;
-    SDL_Rect size = {x=0, y=0, w=0, h=0};
+    SDL_Rect size = {0, 0, 0, 0};
 
 
     ClickComponent(int d, int xpos, int ypos, int width, int height) {
@@ -43,7 +43,7 @@ public:
                 //if (depth == Game::uiDepth) {
                     // todo : 
 
-                //}
+                //      }
                 
                // todo : 
             }

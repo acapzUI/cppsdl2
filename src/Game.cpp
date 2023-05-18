@@ -156,7 +156,7 @@ void Game::update() {
     }
 
     // DUMMY : coin click
-    for (auto )
+    //for (auto )
 
     camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 240);
     camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 240);
