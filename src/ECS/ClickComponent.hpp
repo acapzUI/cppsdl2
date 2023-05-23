@@ -16,26 +16,47 @@ class ClickComponent : public Component {
 public:
 
     SDL_Texture *tex;
-    SDL_Rect srcRect, destRect;
-    SDL_Rect size = {0, 0, 0, 0};
+    SDL_Rect srcR, destR;
+    SDL_Rect clickR = {0, 0, 0, 0};
+
+    int xpos, ypos, width, height = 0;
 
 
-    ClickComponent(int d, int xpos, int ypos, int width, int height) {
+    ClickComponent(int d, int xx, int yy, int ww, int hh) {
         depth = d;
-        size.x = xpos;
-        size.y = ypos;
-        size.w = width;
-        size.h = height;
+
+        xpos = xx;
+        ypos = yy;
+        width = ww;
+        height = hh;
+        
     }
 
     void init() override {
 
         tex = TextureManager::LoadTexture("./assets/clickborder.png"); 
-        srcRect = {0, 0, 32, 32};
-        destRect = {size.x, size.y, size.w, size.h};
+        srcR = {0, 0, 32, 32};
+        destR = {click.x, size.y, size.w, size.h};
+
+        if (!entity->hasComponent<TransformComponent>()) {
+            entity->addComponent<TransformComponent>();
+        }
+        transform = &entity->getComponent<TransformComponent>();
         
     }
     void update() override {
+        
+        
+        clickR.x = static_cast<int>(transform->position.x) + xborder;
+        clickR.y = static_cast<int>(transform->position.y) + yborder;
+        clickR.w = /*transform->width*/ width * transform->scale;
+        clickR.h = /*transform->height*/ height * transform->scale;
+
+        destR.x = clickR.x - Game::camera.x;
+        destR.y = clickR.y - Game::camera.y;
+        destR.w = clickR.w;
+        destR.h = clickRS.h;
+
         /*
         if (Game::event.type == SDL_MOUSEBUTTONDOWN) { 
             if (event.button.x >= size.x && event.button.x <= size.x+size.w && event.button.y >= size.y && event.button.y <= size.y+size.h) {
@@ -51,7 +72,7 @@ public:
         */
     }
     void draw() override {
-        TextureManager::Draw(tex, srcRect, destRect, SDL_FLIP_NONE);
+        TextureManager::Draw(tex, srcR, destR, SDL_FLIP_NONE);
     }
 
 private:
