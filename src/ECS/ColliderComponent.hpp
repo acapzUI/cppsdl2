@@ -15,72 +15,49 @@ public:
 
     TransformComponent *transform;
     
-    int xborder;
-    int yborder;
+    int xpos;
+    int ypos;
     int width;
     int height;
-
-    //int width, height = 0;
 
     ColliderComponent(std::string t) {
         tag = t;
     }
-    /*
-    ColliderComponent(std::string t, int w, int h) {
+    ColliderComponent(std::string t, int xx, int yy, int size) {
         tag = t;
-        width = w;
-        height = h;
-    }
-    */
-    ColliderComponent(std::string t, int xpos, int ypos, int size) {
-        tag = t;
-        collider.x = xpos;
-        collider.y = ypos;
+        collider.x = xx;
+        collider.y = yy;
         collider.w = collider.h = size;
     }
-    ColliderComponent(std::string t, int xpos, int ypos, int collwidth, int collheight) {
+    ColliderComponent(std::string t, int xx, int yy, int ww, int hh) {
         tag = t;
-        xborder = xpos;
-        yborder = ypos;
-        width = collwidth;
-        height = collheight;
+        xpos = xx;
+        ypos = yy;
+        width = ww;
+        height = hh;
     }
     void init() override {
         if (!entity->hasComponent<TransformComponent>()) {
             entity->addComponent<TransformComponent>();
         }
         transform = &entity->getComponent<TransformComponent>();
-        /*Game::colliders.push_back(this);
-        collider.w = static_cast<int>(width);
-        collider.h = static_cast<int>(height);*/
 
         tex = TextureManager::LoadTexture("./assets/colliderborder.png"); 
         srcR = {0, 0, 32, 32};
         destR = {collider.x, collider.y, collider.w, collider.h};
-
-        /*collider.w = static_cast<int>(transform->width * transform->scale);
-        collider.h = static_cast<int>(transform->height * transform->scale);*/
     }
     void update() override {
-        
         if (tag != "terrain") {
-            collider.x = static_cast<int>(transform->position.x) + xborder;
-            collider.y = static_cast<int>(transform->position.y) + yborder;
-            collider.w = /*transform->width*/ width * transform->scale;
-            collider.h = /*transform->height*/ height * transform->scale;
+            collider.x = static_cast<int>(transform->position.x) + xpos;
+            collider.y = static_cast<int>(transform->position.y) + ypos;
+            collider.w = width * transform->scale;
+            collider.h = height * transform->scale;
         }
 
         destR.x = collider.x - Game::camera.x;
         destR.y = collider.y - Game::camera.y;
         destR.w = collider.w;
         destR.h = collider.h;
-
-        /*collider.x = static_cast<int>(transform->position.x);
-        collider.y = static_cast<int>(transform->position.y);*/
-        /*collider.w = static_cast<int>(width);
-        collider.h = static_cast<int>(height);*/
-        /*collider.w = static_cast<int>(transform->width * transform->scale);
-        collider.h = static_cast<int>(transform->height * transform->scale);*/
     }
 
     void draw() override {

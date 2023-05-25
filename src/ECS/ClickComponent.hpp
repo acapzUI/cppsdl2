@@ -21,9 +21,10 @@ public:
     TransformComponent *transform;
     int xpos, ypos, width, height = 0;
 
+    int depth = -1;
+
     ClickComponent(int d, int xx, int yy, int ww, int hh) {
         depth = d;
-
         xpos = xx;
         ypos = yy;
         width = ww;
@@ -54,9 +55,8 @@ public:
         destR.w = clickR.w;
         destR.h = clickR.h;
 
-        /*
         if (Game::event.type == SDL_MOUSEBUTTONDOWN) { 
-            if (event.button.x >= size.x && event.button.x <= size.x+size.w && event.button.y >= size.y && event.button.y <= size.y+size.h) {
+            if (event.button.x >= clickR.x && event.button.x <= clickR.x+clickR.w && event.button.y >= clickR.y && event.button.y <= clickR.y+clickR.h) {
                 
                 //if (depth == Game::uiDepth) {
                     // todo : 
@@ -66,14 +66,14 @@ public:
                // todo : 
             }
         }
-        */
     }
+    void setOnClickEvent() {
+
+    }
+
     void draw() override {
         TextureManager::Draw(tex, srcR, destR, SDL_FLIP_NONE);
     }
-
-private:
-    int depth;
 };
 
 #endif

@@ -82,7 +82,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     } else {
         std::cout << "log : sdl_ttf initialized" << std::endl;
     }
-
+    
 /*
     tx = mTextManager.LoadMessage("./assets/NewHiScore.ttf", "3050!", 45);
     SDL_Point txs;
@@ -97,9 +97,10 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     assets->AddTexture("coin", "assets/item/item8BIT_coin.png");
     assets->AddTexture("bg", "assets/black.png");
     assets->AddTexture("terrain", "assets/terrain_ss.png");
+    assets->AddTexture("gem", "assets/item/item8BIT_gem.png");
 
     player.addComponent<TransformComponent>(10, 10, 32, 32, 1);
-    player.addComponent<SpriteComponent>("skull");
+    player.addComponent<SpriteComponent>("gem");
     player.addComponent<KeyboardController>();
     player.addComponent<ColliderComponent>("player", 5, 5, 20, 25);
     player.addGroup(groupPlayers);
@@ -174,8 +175,6 @@ void Game::update() {
         camera.y = camera.h*2;
 }
 
-
-
 void Game::render() {
     SDL_RenderClear(renderer);
     mTextureManager.Draw(bgTexture, bgOrigin, bgSize, SDL_FLIP_NONE);
@@ -203,7 +202,6 @@ void Game::render() {
     }
 
     //mTextureManager.Draw(tx, txOrigin, txSize, SDL_FLIP_NONE);
-
     SDL_RenderPresent(renderer);
 }
 
