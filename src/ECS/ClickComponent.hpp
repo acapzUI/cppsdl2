@@ -32,7 +32,6 @@ public:
     }
 
     void init() override {
-
         if (!entity->hasComponent<TransformComponent>()) {
             entity->addComponent<TransformComponent>();
         }
@@ -44,30 +43,20 @@ public:
         
     }
     void update() override {
-        
         clickR.x = static_cast<int>(transform->position.x) + xpos;
         clickR.y = static_cast<int>(transform->position.y) + ypos;
-        clickR.w = /*transform->width*/ width * transform->scale;
-        clickR.h = /*transform->height*/ height * transform->scale;
+        clickR.w = width * transform->scale;
+        clickR.h = height * transform->scale;
 
         destR.x = clickR.x - Game::camera.x;
         destR.y = clickR.y - Game::camera.y;
         destR.w = clickR.w;
         destR.h = clickR.h;
-
-        if (Game::event.type == SDL_MOUSEBUTTONDOWN) { 
-            if (event.button.x >= clickR.x && event.button.x <= clickR.x+clickR.w && event.button.y >= clickR.y && event.button.y <= clickR.y+clickR.h) {
-                
-                //if (depth == Game::uiDepth) {
-                    // todo : 
-
-                //      }
-                
-               // todo : 
-            }
-        }
     }
     void setOnClickEvent() {
+
+    }
+    void onClickEvent() {
 
     }
 

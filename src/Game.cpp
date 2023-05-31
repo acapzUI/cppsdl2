@@ -97,7 +97,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     assets->AddTexture("coin", "assets/item/item8BIT_coin.png");
     assets->AddTexture("bg", "assets/black.png");
     assets->AddTexture("terrain", "assets/terrain_ss.png");
-    assets->AddTexture("gem", "assets/item/item8BIT_gem.png");
+    assets->AddTexture("gem", "assets/item/item8BIT_gem.png"); 
 
     player.addComponent<TransformComponent>(10, 10, 32, 32, 1);
     player.addComponent<SpriteComponent>("gem");
@@ -157,7 +157,18 @@ void Game::update() {
     }
 
     // DUMMY : coin click
-    //for (auto )
+    if (event.type == SDL_MOUSEBUTTONDOWN) { 
+        for (auto cc : coins) {
+            SDL_Rect clickR = cc->getComponent<ClickComponent>().destR;
+            if (event.button.x >= clickR.x && event.button.x <= clickR.x+clickR.w && event.button.y >= clickR.y && event.button.y <= clickR.y+clickR.h) {   
+                if (cc->getComponent<ClickComponent>().depth == uiDepth) {
+                    cc->getComponent<ClickComponent>().onClickEvent();
+                    cc->destroy();
+                    printf("CLICKED.");
+                }
+            }
+        }
+    }
 
     camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 240);
     camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 240);
