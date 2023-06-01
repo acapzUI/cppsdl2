@@ -156,7 +156,7 @@ void Game::update() {
         }
     }
 
-    // DUMMY : coin click
+    // coin - click
     if (event.type == SDL_MOUSEBUTTONDOWN) { 
         for (auto cc : coins) {
             SDL_Rect clickR = cc->getComponent<ClickComponent>().destR;
