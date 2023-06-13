@@ -83,14 +83,6 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         std::cout << "log : sdl_ttf initialized" << std::endl;
     }
     
-/*
-    tx = mTextManager.LoadMessage("./assets/NewHiScore.ttf", "3050!", 45);
-    SDL_Point txs;
-    SDL_QueryTexture(tx, NULL, NULL, &txs.x, &txs.y);
-    txOrigin = {0, 0, txs.x, txs.y};
-    txSize = {10, 10, txs.x, txs.y};
-*/
-
     assets->AddFont("hiscore", "./assets/NewHiScore.ttf", 18);
     assets->AddFont("gothic", "./assets/NEXONLv1GothicBold.ttf", 24);
     assets->AddTexture("skull", "assets/item/item8BIT_skull.png");
